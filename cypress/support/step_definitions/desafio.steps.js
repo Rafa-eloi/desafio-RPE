@@ -12,3 +12,18 @@ Then("o usuário fecha os avisos da tela, se presentes", () => {
   desafioPage.fecharBannerPromocionalSeExistir();
 });
 
+When("Faço a pesquisa pelo produto", () => {
+  desafioPage.pesquisarProduto();
+});
+
+When("Filtro pelo preço", () => {
+  desafioPage.filtrarPreco();
+});
+
+Then("Listar produtos que atendem os critérios", () => {
+  desafioPage.listarProdutos();
+});
+
+
+
+

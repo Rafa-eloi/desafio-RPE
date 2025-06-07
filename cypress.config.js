@@ -5,10 +5,18 @@ const addCucumberPreprocessorPlugin = require("@badeball/cypress-cucumber-prepro
 const path = require("path");
 
 module.exports = defineConfig({
+  viewportWidth: 1440,
+  viewportHeight: 900,
+  defaultCommandTimeout: 10000, // 10 segundos para comandos (cy.get, cy.contains, etc.)
+  pageLoadTimeout: 60000,       // 60 segundos para carregamento de páginas
+  requestTimeout: 10000,        // 10 segundos para requests XHR
+  responseTimeout: 30000,       // 30 segundos para esperar resposta
   e2e: {
-    baseUrl: "https://www.americanas.com.br/",
-    specPattern: "cypress/e2e/features/**/*.feature",
 
+    baseUrl: "https://www.americanas.com.br/",
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+    specPattern: "cypress/e2e/features/**/*.feature",
+    
     async setupNodeEvents(on, config) {
       await addCucumberPreprocessorPlugin(on, config);
 
