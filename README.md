@@ -1,7 +1,7 @@
 # Desafio de Automação
 Projeto de automação utilizando o cypress para seleção em QA, onde visa testar as habilidades em automação de frontend.
 Site utilizado para execução dos testes: https://www.americanas.com.br/
-Este projeto tem como objetivo desenvolver um cenário onde o usuário acessa o site, faz uma pesquisa pelo produto "Smart TV", logo após faz uma filtragem por produtos em uma determinada faiza de preço (R$ 2.500 - R$ 5.000). Feito isso, a automação deve percorrer toda a lista de produtos, salvar aqueles que são maiores que R$ 3.500 e mostrar numa lista esses produtos com as seguintes informações: Nome, Preço e Ratin de Avaliação
+Este projeto tem como objetivo desenvolver um cenário onde o usuário acessa o site, faz uma pesquisa pelo produto "Smart TV", logo após faz uma filtragem por produtos em uma determinada faixa de preço (R$ 2.500 - R$ 5.000). Feito isso, a automação deve percorrer toda a lista de produtos, salvar aqueles que são maiores que R$ 3.500 e mostrar numa lista esses produtos com as seguintes informações: Nome, Preço e Ratin de Avaliação
 
 # Preparação do Ambiente
 Para este projeto foram utilizados as seguintes tecnologias/ferramentas/bibliotecas e versões:
