@@ -1,82 +1,90 @@
+import { elements } from '../elements/desafioElements';
+
 export class DesafioPage {
+  
+  // Método para fechar o banner promocional, caso ele exista na página
+  fecharBannerPromocionalSeExistir() {
+    cy.get('body').then(($body) => {
+      // Verifica se o banner promocional está presente e depois clica para fechar
+      if ($body.find(elements.bannerPromocional).length > 0) {
+        cy.get(elements.fecharBannerPromocional).click();
+      }
+    });
+  }
 
-    fecharBannerCookies() {
-        cy.get('.cc-close.dp-add-listener').click();
-    }
+  // Método para fechar os cookies
+  fecharBannerCookies() {
+    cy.get(elements.bannerCookies).click();
+  }
 
-    fecharBannerPromocionalSeExistir() {
-        cy.get('body').then(($body) => {
-            if ($body.find('#ins-responsive-banner-15318405239990').length > 0) {
-            cy.get('#close-button-1454703513200 > svg').click();
-            }
-        });
-    }
+  // Método para realizar a busca de um produto com o termo "Smart TV"
+  pesquisarProduto() {
+    cy.get(elements.campoPesquisa).should('be.visible').clear().type('Smart TV');
+    cy.get(elements.botaoPesquisar).should('be.visible').click({ force: true });
+  }
 
-    pesquisarProduto() {
-        cy.get('[data-testid="fs-input"]').should('be.visible').clear().type('Smart TV');
-        cy.get('[data-testid="fs-search-button"] > div > span').should('be.visible').click( {force: true});
-    }
+  // Método para aplicar filtro de preço na lista de produtos
+  filtrarPreco() {
+    cy.get(elements.botaoMostrarTodosPrecos).click();
+    cy.get(elements.checkboxFaixaPreco).check();
+  }
 
-    filtrarPreco() {
-        cy.get('.FilterFacetCheckbox_showAll__e_whq').click();
-        cy.get(':nth-child(8) > label > [data-testid="fs-input"]').check();
-        console.log("Filtragem feita"); //apagar
-    }
+  // Método para listar produtos caros (com preço maior que R$ 3.500) em todas as páginas
+  listarProdutos() {
+    const produtosCaros = [];
 
-    listarProdutos() {
-        const produtosCaros = [];
-
-        function carregarTodasAsPaginas() {
-        return new Cypress.Promise((resolve) => {
-            function clicarEnquantoExistir() {
-            cy.get('body').then(($body) => {
-                if ($body.find('[data-testid="pagination-button"]').length > 0) {
-                // Garante que o botão esteja visível e clicável
-                cy.get('[data-testid="pagination-button"]', { timeout: 10000 })
-                    .should('exist')
-                    .should('be.visible')
-                    .should('not.be.disabled')
-                    .then(($btn) => {
-                    // Usa wrap para garantir que estamos clicando no elemento correto no DOM atual
-                    cy.wrap($btn).click({ force: true });
-                    cy.wait(1500); // Aguarda novos produtos aparecerem
-
-                    // Aguarda o DOM atualizar antes de continuar
-                    cy.document().its('readyState').should('eq', 'complete');
-
-                    // Chama novamente a função
-                    clicarEnquantoExistir();
-                    });
-                } else {
-                resolve(); // Não há mais botão, termina
-                }
-            });
-            }
-            clicarEnquantoExistir();
-        });
-        }
-
-        carregarTodasAsPaginas().then(() => {
-        cy.get('a[ins-product-id]').each(($el) => {
-            const nome = $el.find('.ProductCard_productName__mwx7Y').text().trim();
-            const precoTexto = $el.find('.ProductCard_productPrice__XFEqu').text().trim();
-            const rating = $el.find('.avg-rating').text().trim() || 'N/A';
-
-            const precoNumerico = parseFloat(precoTexto.replace(/[^\d,]/g, '').replace(',', '.'));
-
-            if (precoNumerico > 3500) {
-                produtosCaros.push({
-                    Produto: nome,
-                    Preço: `R$ ${precoNumerico.toFixed(2)}`,
-                    Rating: rating,
+    // Função auxiliar que carrega todas as páginas clicando no botão de paginação até o fim
+    function carregarTodasAsPaginas() {
+      return new Cypress.Promise((resolve) => {
+        function clicarEnquantoExistir() {
+          cy.get('body').then(($body) => {
+            // Verifica se o botão de paginação existe na página atual
+            if ($body.find(elements.botaoPaginacao).length > 0) {
+              cy.get(elements.botaoPaginacao, { timeout: 10000 })
+                .should('exist')
+                .should('be.visible')
+                .should('not.be.disabled')
+                .then(($btn) => {
+                  cy.wrap($btn).click({ force: true });
+                  cy.wait(1500);
+                  cy.document().its('readyState').should('eq', 'complete');
+                  clicarEnquantoExistir();
                 });
-                }
-            }).then(() => {
-                console.log('Produtos com preço > R$ 3.500:');
-                console.table(produtosCaros);
-            });
-        });
+            } else {
+              // Resolve a Promise quando não houver mais páginas para clicar
+              resolve();
+            }
+          });
+        }
+        clicarEnquantoExistir();
+      });
     }
 
-}
+    // Depois que todas as páginas forem carregadas, percorre os cards de produtos para filtrar os caros
+    carregarTodasAsPaginas().then(() => {
+      cy.get(elements.cardProduto).each(($el) => {
+        // Extrai nome, preço e avaliação de cada produto no card
+        const nome = $el.find(elements.nomeProduto).text().trim();
+        const precoTexto = $el.find(elements.precoProduto).text().trim();
+        const rating = $el.find(elements.ratingProduto).text().trim() || 'N/A';
 
+        // Converte o preço para número (considerando vírgula decimal e símbolos)
+        const precoNumerico = parseFloat(precoTexto.replace(/[^\d,]/g, '').replace(',', '.'));
+
+        // Se o preço for maior que 3500, adiciona o produto na lista de produtos caros
+        if (precoNumerico > 3500) {
+          produtosCaros.push({
+            Produto: nome,
+            Preço: `R$ ${precoNumerico.toFixed(2)}`,
+            Rating: rating,
+          });
+        }
+      }).then(() => {
+        // Após listar, exibe os produtos caros no console e envia para uma task Cypress
+        console.log('Produtos com preço > R$ 3.500:');
+        cy.task('logProdutosCaros', produtosCaros);
+        console.table(produtosCaros);
+      });
+    });
+  }
+}

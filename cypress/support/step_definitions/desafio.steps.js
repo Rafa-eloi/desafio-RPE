@@ -7,20 +7,20 @@ Given("que o usuário acessa a página inicial", () => {
   cy.visit('/');
 });
 
-Then("o usuário fecha os avisos da tela, se presentes", () => {
-  desafioPage.fecharBannerCookies();
+Then("fecha os avisos da tela, se presentes", () => {
   desafioPage.fecharBannerPromocionalSeExistir();
+  desafioPage.fecharBannerCookies(); 
 });
 
-When("Faço a pesquisa pelo produto", () => {
+When("faço a pesquisa pelo produto", () => {
   desafioPage.pesquisarProduto();
 });
 
-When("Filtro pelo preço", () => {
+When("filtro pelo preço", () => {
   desafioPage.filtrarPreco();
 });
 
-Then("Listar produtos que atendem os critérios", () => {
+Then("listar produtos que atendem os critérios", () => {
   desafioPage.listarProdutos();
 });
 
