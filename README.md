@@ -35,7 +35,8 @@ Instalação do Visual Studio Code
 - Para iniciar o cypress, execute o comando: `npx cypress open`
 - Com a tela do cypress aberta, clique para executar os testes E2E;
 - Na tela seguinte escolha o navegador em que deseja rodar os testes e clique para dar o "Start"
-- ![Exemplo de execução pelo navegador](./assets/execucao-navegador.png)
+- Exemplo de execução pelo navegador
+  ![Exemplo de execução pelo navegador](./assets/execucao-navegador.png)
 
 
 # Informações para executar a automação no modo headless
@@ -43,4 +44,5 @@ Instalação do Visual Studio Code
 - Abrir o terminal dentro da raiz do projeto e executar o comando: `npm install` para que seja criada a pasta node_modules e instalar todas as dependências do projeto;
 - Execute o comando: `npx cypress open`
 - Note que os testes serão executados no terminal, gerando uma tabela com as informações.
-- ![Exemplo de execução pelo terminal](./assets/execucao-terminal.png)
+- Exemplo de execução pelo terminal
+  ![Exemplo de execução pelo terminal](./assets/execucao-terminal.png)
