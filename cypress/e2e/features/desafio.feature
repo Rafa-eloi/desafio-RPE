@@ -1,5 +1,11 @@
-Feature: Acessar página e fechar aviso de cookies
+Feature: Desafio técinico RPE
 
-  Scenario: Acessar a plataforma e fechar os avisos
+  Background: Acessar a plataforma e fechar os avisos
     Given que o usuário acessa a página inicial
-    Then o usuário fecha os avisos da tela, se presentes
+    Then fecha os avisos da tela, se presentes
+  
+  @smoke
+  Scenario: Desafio RPE
+    When faço a pesquisa pelo produto
+    And filtro pelo preço
+    Then listar produtos que atendem os critérios
