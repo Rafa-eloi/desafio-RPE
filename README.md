@@ -42,7 +42,7 @@ Instalação do Visual Studio Code
 # Informações para executar a automação no modo headless
 - Clonar o repositório no diretório local desejado;
 - Abrir o terminal dentro da raiz do projeto e executar o comando: `npm install` para que seja criada a pasta node_modules e instalar todas as dependências do projeto;
-- Execute o comando: `npx cypress open`
+- Execute o comando: `npx cypress run`
 - Note que os testes serão executados no terminal, gerando uma tabela com as informações.
 - Exemplo de execução pelo terminal
   ![Exemplo de execução pelo terminal](./assets/execucao-terminal.png)
